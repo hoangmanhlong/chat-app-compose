@@ -1,0 +1,19 @@
+<resources>
+    <string name="web_client_id">499546883695-qpa6gt56m9kiglq70skimkd6ld8r4crt.apps.googleusercontent.com</string>
+    <string name="app_name">Messenger</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Login</string>
+    <string name="hi">Hi, %s</string>
+    <string name="delete_account">Delete account</string>
+    <string name="dark_model">Dark model</string>
+    <string name="setting">Setting</string>
+    <string name="logout">Log out</string>
+    <string name="register">Register</string>
+    <string name="sign_up">Sign up</string>
+    <string name="confirm">Confirm password</string>
+    <string name="message">Message</string>
+    <string name="sign_in_google">Sign in with Google</string>
+    <string name="sign_in_email">Sign in with Email</string>
+    <string name="sign_up_email">Sign up with Email</string>
+</resources>
