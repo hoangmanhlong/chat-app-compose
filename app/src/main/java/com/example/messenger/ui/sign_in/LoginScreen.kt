@@ -8,11 +8,13 @@ import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -23,12 +25,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.messenger.R
-import com.example.messenger.ui.MessengerAppBar
+import com.example.messenger.ui.common_ui.MessengerAppBar
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -114,16 +118,35 @@ fun LoginBody(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Button(
-                onClick = onLogin,
-                modifier = Modifier.fillMaxWidth(),
-                enabled = true
-            ) {
-                Text(text = stringResource(id = R.string.sign_in_google))
-            }
+            Button(onClick = goSignInWithEmailScreen, modifier = Modifier.fillMaxWidth()) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_email),
+                        contentDescription = null,
+                        tint = Color.Unspecified
+                    )
+                    Text(text = stringResource(id = R.string.sign_in_email))
+                }
 
-            OutlinedButton(onClick = goSignInWithEmailScreen, modifier = Modifier.fillMaxWidth()) {
-                Text(text = stringResource(id = R.string.sign_in_email))
+            }
+            OutlinedButton(
+                onClick = onLogin,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.flat_color_icons_google),
+                        contentDescription = null,
+                        tint = Color.Unspecified
+                    )
+                    Text(text = stringResource(id = R.string.sign_in_google))
+                }
             }
         }
     }

@@ -9,12 +9,9 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.messenger.data.MessengerRepository
-import com.example.messenger.model.Friend
-import com.example.messenger.model.User
+import com.example.messenger.model.ChatRoom
 import com.example.messenger.service.model.SignInResult
 import com.example.messenger.service.model.UserData
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -27,12 +24,24 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val repository: MessengerRepository
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(HomeUiState(currentUser = repository.googleService.getSignedInUser()))
+    private val _uiState =
+        MutableStateFlow(
+            HomeUiState(
+                currentUser = repository.googleService.getSignedInUser()
+            )
+        )
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
+
+    init {
+        repository.messengerFireBaseDatabase.getListChatRoomsFromFirebase { chatrooms ->
+            _uiState.update { it.copy(chatRooms = chatrooms) }
+        }
+    }
 
     suspend fun signIn(intent: Intent): SignInResult {
         return repository.googleService.signInWithIntent(intent)
     }
+
 
     fun onSignInResult(result: SignInResult) {
         _uiState.update {
@@ -47,7 +56,7 @@ class HomeViewModel @Inject constructor(
 }
 
 data class HomeUiState(
-    val friends: List<Friend> = emptyList(),
+    val chatRooms: List<ChatRoom> = emptyList(),
     var currentUser: UserData? = null,
     val signInError: String? = null
 )

@@ -16,4 +16,5 @@
     <string name="sign_in_google">Sign in with Google</string>
     <string name="sign_in_email">Sign in with Email</string>
     <string name="sign_up_email">Sign up with Email</string>
+    <string name="anonymous">Anonymous</string>
 </resources>

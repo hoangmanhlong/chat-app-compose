@@ -5,19 +5,26 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.messenger.ui.chat.ChatRoomScreen
 import com.example.messenger.ui.home.HomeScreen
 import com.example.messenger.ui.setting.SettingScreen
 import com.example.messenger.ui.sign_in.LoginScreen
 import com.example.messenger.ui.sign_in_with_email.SignInWithEmailScreen
 import com.example.messenger.ui.sign_up_with_email.SignUpScreen
+import com.example.messenger.ui.splash.SplashScreen
 
 @Composable
 fun MessengerNavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
     NavHost(
         navController = navController,
-        startDestination = Screen.HomeScreen.route,
+        startDestination = Screen.SplashScreen.route,
         modifier = modifier
     ) {
+        composable(route = Screen.SplashScreen.route) {
+            SplashScreen {
+                navController.navigate(Screen.HomeScreen.route)
+            }
+        }
         composable(route = Screen.SignInScreen.route) {
             LoginScreen(
                 goHomeScreen = { navController.navigate(Screen.HomeScreen.route) },
@@ -31,7 +38,8 @@ fun MessengerNavGraph(navController: NavHostController, modifier: Modifier = Mod
                 goLogInScreen = {
                     navController.popBackStack()
                     navController.navigate(Screen.SignInScreen.route)
-                }
+                },
+                goChatRoomScreen = { navController.navigate(Screen.ChatRoomScreen.route) }
             )
         }
 
@@ -56,6 +64,10 @@ fun MessengerNavGraph(navController: NavHostController, modifier: Modifier = Mod
             SignUpScreen(
                 backSignInWithEmailScreen = { navController.navigateUp() },
             )
+        }
+
+        composable(route = Screen.ChatRoomScreen.route) {
+            ChatRoomScreen(onNavigateUp = {navController.navigateUp()})
         }
     }
 }

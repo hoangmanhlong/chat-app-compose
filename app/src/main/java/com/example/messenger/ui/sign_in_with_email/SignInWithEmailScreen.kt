@@ -32,7 +32,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.messenger.R
-import com.example.messenger.ui.MessengerAppBar
+import com.example.messenger.ui.common_ui.MessengerAppBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

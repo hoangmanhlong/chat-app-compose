@@ -5,12 +5,14 @@ import com.example.messenger.data.MessengerRepository
 import com.example.messenger.data.MessengerRepositoryImpl
 import com.example.messenger.service.EmailServiceImpl
 import com.example.messenger.service.GoogleServiceImpl
+import com.example.messenger.service.MessengerFireBaseDatabase
 import com.example.messenger.service.model.EmailService
 import com.example.messenger.service.model.GoogleService
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.firebase.Firebase
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.database
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,9 +23,28 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
+//    @Provides
+//    @Singleton
+//    fun provideMessengerDatabase(application: Application): MessengerDatabase =
+//        Room.databaseBuilder(
+//            application,
+//            MessengerDatabase::class.java,
+//            "messenger_db"
+//        )
+//            .build()
+
     @Provides
     @Singleton
-    fun provideSignInClient(application: Application): SignInClient  {
+    fun provideFirebaseDatabase(): DatabaseReference = Firebase.database.reference
+
+    @Provides
+    @Singleton
+    fun provideMessengerFireBaseDatabase(reference: DatabaseReference): MessengerFireBaseDatabase =
+        MessengerFireBaseDatabase(reference)
+
+    @Provides
+    @Singleton
+    fun provideSignInClient(application: Application): SignInClient {
         return Identity.getSignInClient(application)
     }
 
@@ -43,7 +64,8 @@ object AppModule {
     @Singleton
     fun provideRepository(
         emailService: EmailService,
-        googleService: GoogleService
+        googleService: GoogleService,
+        messengerFireBaseDatabase: MessengerFireBaseDatabase
     ): MessengerRepository =
-        MessengerRepositoryImpl(emailService, googleService)
+        MessengerRepositoryImpl(emailService, googleService, messengerFireBaseDatabase)
 }
